@@ -49,3 +49,9 @@ npm start
 6. To run the app in a web browser:
 
    - Press "w" in the terminal to open the app in a web browser.
+
+## Running test
+
+```bash
+npm test
+```
