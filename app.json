@@ -1,0 +1,14 @@
+{
+	"expo": {
+		"scheme": "acme",
+		"web": {
+			"bundler": "metro"
+		},
+		"plugins": ["expo-router"],
+		"name": "artist-harbor",
+		"slug": "artist-harbor",
+		"experiments" : {
+			"typedRoutes": true
+		}
+	}
+}

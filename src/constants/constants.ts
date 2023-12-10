@@ -1,0 +1,2 @@
+export const ARTIST_IMAGE_WIDTH_PX = 300
+export const SEARCH_QUERY_MIN_LENGTH = 3
