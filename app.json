@@ -7,7 +7,8 @@
 		"plugins": ["expo-router"],
 		"name": "artist-harbor",
 		"slug": "artist-harbor",
-		"experiments" : {
+		"orientation": "portrait",
+		"experiments": {
 			"typedRoutes": true
 		}
 	}
