@@ -15,6 +15,7 @@ const Artist = () => {
 	const { artistName } = useLocalSearchParams()
 	const [artistInfo, setArtistInfo] = useState<ArtistInfo | null>(null)
 	const [imageSrc, setImageSrc] = useState<string>(null)
+	const [tags, setTags] = useState<string[]>([])
 	const [loading, setLoading] = useState(false)
 	const { width } = useWindowDimensions()
 
@@ -28,6 +29,8 @@ const Artist = () => {
 			const artistInfo = await getArtistInfo(artistName as string)
 			setImageSrc(findImageSrc(artistInfo?.artist.image, 'extralarge'))
 			setArtistInfo(artistInfo)
+			// Pase tag names
+			setTags(artistInfo.artist?.tags?.tag?.map(tag => tag.name) || [])
 		} catch (error) {
 			console.error('Error fetching artist info:', error)
 		} finally {
@@ -67,18 +70,29 @@ const Artist = () => {
 									<Image source={require(fallbackImageSrc)} style={styles.artistImage} />
 								)}
 								<Text style={styles.artistTitleText}>{artistInfo.artist?.name?.toLocaleUpperCase()}</Text>
-								{artistInfo.artist?.stats && (
 									<View style={styles.statsRowContainer}>
-										<View style={styles.listenersColContainer}>
-											<Text style={styles.listenersTitleText}>LISTENERS</Text>
-											<Text style={styles.listenersValueText}>{artistInfo.artist.stats.listeners}</Text>
-										</View>
-										<View style={styles.playsColContainer}>
-											<Text style={styles.playsTitleText}>PLAYS</Text>
-											<Text style={styles.playsValueText}>{artistInfo.artist.stats.playcount}</Text>
-										</View>
+									{artistInfo.artist?.stats && (
+										<>
+											<View style={styles.listenersColContainer}>
+												<Text style={styles.listenersTitleText}>LISTENERS</Text>
+												<Text style={styles.listenersValueText}>{artistInfo.artist.stats.listeners}</Text>
+											</View>
+											<View style={styles.playsColContainer}>
+												<Text style={styles.playsTitleText}>PLAYS</Text>
+												<Text style={styles.playsValueText}>{artistInfo.artist.stats.playcount}</Text>
+											</View>
+										</>
+										)}
+										{tags.length > 0 && (
+											<View style={styles.tagsContainer}>
+												{tags.map((tag, index) => (
+													<Text key={index} style={styles.tag}>
+														#{tag.toLowerCase()}
+													</Text>
+												))}
+											</View>
+										)}
 									</View>
-								)}
 								{artistInfo.artist?.bio?.summary && (
 									<View style={styles.artistBioText}>
 										<RenderHtml
@@ -111,7 +125,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		alignSelf: 'stretch'
 	},
 	statsRowContainer: {
 		gap: 10,
@@ -119,7 +134,7 @@ const styles = StyleSheet.create({
 		alignContent: 'flex-start',
 		alignItems: 'center',
 		alignSelf: 'flex-start',
-		marginHorizontal: 60
+		marginHorizontal: 50
 	},
 	loadingIndicator: {
 		alignSelf: 'center'
@@ -136,7 +151,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 50
 	},
 	artistBioText: {
-		marginHorizontal: 60,
+		marginHorizontal: 50,
 		color: '#4D4D4D'
 	},
 	listenersTitleText: {
@@ -152,7 +167,8 @@ const styles = StyleSheet.create({
 	playsColContainer: {
 		flexDirection: 'column',
 		alignContent: 'center',
-		alignItems: 'flex-start'
+		alignItems: 'flex-start',
+		flex: 2
 	},
 	playsTitleText: {
 		fontSize: 20,
@@ -164,6 +180,19 @@ const styles = StyleSheet.create({
 	},
 	playsValueText: {
 		color: '#333333'
+	},
+	tagsContainer: {
+		flexDirection: 'row',
+		alignContent: 'center',
+		alignItems: 'flex-start',
+		flexWrap: 'wrap',
+		justifyContent: 'flex-end',
+		flex: 2
+	},
+	tag: {
+		fontSize: 12,
+		color: '#666666',
+		paddingEnd: 8,
 	},
 	back: {
 		marginHorizontal: 30,
