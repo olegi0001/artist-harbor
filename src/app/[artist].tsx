@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignContent: 'flex-start',
 		alignItems: 'center',
-		alignSelf: 'flex-start',
+		alignSelf: 'stretch',
 		marginHorizontal: 50
 	},
 	loadingIndicator: {
@@ -191,8 +191,9 @@ const styles = StyleSheet.create({
 	},
 	tag: {
 		fontSize: 12,
+		textAlign: 'right',
 		color: '#666666',
-		paddingEnd: 8,
+		paddingStart: 8,
 	},
 	back: {
 		marginHorizontal: 30,
